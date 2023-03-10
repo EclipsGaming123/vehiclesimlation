@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Vehicle
+comment0.text=\r\n\ This\ is\ the\ superclass\ for\ Vehicles.\r\n\ \r\n
+comment1.params=
+comment1.target=void\ checkHitPedestrian()
+comment2.params=origin
+comment2.target=Vehicle(VehicleSpawner)
+comment3.params=w
+comment3.target=void\ addedToWorld(greenfoot.World)
+comment4.params=
+comment4.target=boolean\ checkEdge()
+comment4.text=\r\n\ A\ method\ used\ by\ all\ Vehicles\ to\ check\ if\ they\ are\ at\ the\ edge.\r\n\ \r\n\ Note\ that\ this\ World\ is\ set\ to\ unbounded\ (The\ World's\ super\ class\ is\ (int,\ int,\ int,\ FALSE)\ which\ means\r\n\ that\ objects\ should\ not\ be\ stopped\ from\ leaving\ the\ World.\ However,\ this\ introduces\ a\ challenge\ as\ there\r\n\ is\ the\ potential\ for\ objects\ to\ disappear\ off-screen\ but\ still\ be\ fully\ acting\ and\ thus\ wasting\ resources\r\n\ and\ affecting\ the\ simulation\ even\ though\ they\ are\ not\ visible.\r\n
+comment5.params=
+comment5.target=void\ drive()
+comment5.text=\r\n\ Method\ that\ deals\ with\ movement.\ Speed\ can\ be\ set\ by\ individual\ subclasses\ in\ their\ constructors\r\n
+comment6.params=
+comment6.target=double\ getSpeed()
+comment6.text=\r\n\ An\ accessor\ that\ can\ be\ used\ to\ get\ this\ Vehicle's\ speed.\ Used,\ for\ example,\ when\ a\ vehicle\ wants\ to\ see\r\n\ if\ a\ faster\ vehicle\ is\ ahead\ in\ the\ lane.\r\n
+numComments=7
