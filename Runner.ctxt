@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Runner
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Runner\ here.\r\n\ \r\n\ @author\ Aous\ Alomari\r\n
+comment1.params=direction
+comment1.target=Runner(int)
+comment2.params=
+comment2.target=void\ act()
+numComments=3

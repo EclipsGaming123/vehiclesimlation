@@ -5,6 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bus extends Vehicle
 {
+    private int delayCount;
     public Bus(VehicleSpawner origin){
         super (origin); // call the superclass' constructor first
         
@@ -21,20 +22,55 @@ public class Bus extends Vehicle
      */
     public void act()
     {
-        drive();
-        checkHitPedestrian();
+        if (paused())
+        {
+            delayCount--;
+            return;
+        }else
+        {
+            drive();
+        }
+        
+        
         if (checkEdge()){
             getWorld().removeObject(this);
         }
-        
     }
 
     public void checkHitPedestrian () {
-        Pedestrian p = (walker)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
-        if (p != null && !p.isAwake())
-        {
-            getWorld().removeObject(p);
-            
-        }
+        return;
+    }    
+    // methods to add
+    public boolean paused()
+    {
+        return delayCount > 0;
     }
+
+    public void setDelay(int actCount)
+    {
+        delayCount = actCount;
+    }
+    
+    public void drive()
+    {
+        Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
+        
+        if (ahead == null)
+        {
+            speed = maxSpeed;
+        } else {
+            speed = ahead.getSpeed();
+        }
+        Pedestrian intersectingPedestrian = (Pedestrian) this.getOneIntersectingObject(Pedestrian.class);
+        if (intersectingPedestrian != null && intersectingPedestrian.isAwake())
+        {
+            setDelay(50);
+            speed = 0;
+            getWorld().removeObject(intersectingPedestrian);
+            return;
+        }
+        checkHitPedestrian();
+        move (speed * direction);
+    } 
+    //bus keeps driving even after a civilian touches it ;-; plz change :_(
 }

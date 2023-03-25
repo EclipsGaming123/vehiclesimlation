@@ -37,18 +37,18 @@ public class VehicleWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1, false); 
 
-        setPaintOrder (Pedestrian.class, Bus.class, Car.class, Ambulance.class);
+        setPaintOrder (Bus.class, Car.class, Ambulance.class, bulldozer.class, Pedestrian.class);
 
         // set up background
         background = new GreenfootImage ("background01.png");
         setBackground (background);
 
         // Set critical variables
-        laneCount = 6;
+        laneCount = 4;
         laneHeight = 48;
         spaceBetweenLanes = 6;
-        splitAtCenter = false;
-        twoWayTraffic = false;
+        splitAtCenter = true;
+        twoWayTraffic = true;
 
         
         // Init lane spawner objects 
@@ -65,15 +65,18 @@ public class VehicleWorld extends World
 
     private void spawn () {
         // Chance to spawn a vehicle
-        if (Greenfoot.getRandomNumber (60) == 0){
+        if (Greenfoot.getRandomNumber (10) == 0){
             int lane = Greenfoot.getRandomNumber(laneCount);
             if (!laneSpawners[lane].isTouchingVehicle()){
                 int vehicleType = Greenfoot.getRandomNumber(4);
-                if (vehicleType == 0){
+                if (vehicleType == 0)
+                {
                     addObject(new Car(laneSpawners[lane]), 0, 0);
-                } else if (vehicleType == 1){
+                } else if (vehicleType == 1)
+                {
                     addObject(new Bus(laneSpawners[lane]), 0, 0);
-                } else if (vehicleType == 2){
+                } else if (vehicleType == 2)
+                {
                     addObject(new Ambulance(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 3)
                 {
@@ -86,10 +89,13 @@ public class VehicleWorld extends World
         if (Greenfoot.getRandomNumber (60) == 0){
             int xSpawnLocation = Greenfoot.getRandomNumber (600) + 100; // random between 99 and 699, so not near edges
             boolean spawnAtTop = Greenfoot.getRandomNumber(2) == 0 ? true : false;
+            
             if (spawnAtTop){
-                addObject (new walker (1), xSpawnLocation, 50);
+                Pedestrian newHuman = Greenfoot.getRandomNumber(2) == 0 ? new walker(1) : new Runner(1);
+                addObject(newHuman, xSpawnLocation, 50);
             } else {
-                addObject (new walker (-1), xSpawnLocation, 550);
+                Pedestrian newHuman = Greenfoot.getRandomNumber(2) == 0 ? new walker(-1) : new Runner(-1);
+                addObject(newHuman, xSpawnLocation, 550);
             }
         }
     }
@@ -147,7 +153,6 @@ public class VehicleWorld extends World
         for (int i = 0; i < lanes; i++){
             // calculate the position for the lane
             lanePositions[i] = startY + spacing + (i * (heightPerLane+spacing)) + heightOffset ;
-            
             // draw lane
             target.setColor(GREY_STREET); 
             // the lane body

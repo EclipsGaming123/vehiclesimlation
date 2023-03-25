@@ -61,15 +61,11 @@ public abstract class Vehicle extends SuperSmoothMover
      */
     public void drive() 
     {
-        // Ahead is a generic vehicle - we don't know what type BUT
-        // since every Vehicle "promises" to have a getSpeed() method,
-        // we can call that on any vehicle to find out it's speed
         Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
-        if (ahead == null)
+        if (ahead == null || ahead.getSpeed() > speed)
         {
             speed = maxSpeed;
-
-        } else {
+        }else {
             speed = ahead.getSpeed();
         }
         move (speed * direction);
@@ -81,5 +77,26 @@ public abstract class Vehicle extends SuperSmoothMover
      */
     public double getSpeed(){
         return speed;
+    }
+    
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+    
+    public int getDirection()
+    {
+        return direction;
+    }
+    
+    public boolean crash(Vehicle other)
+    {
+        if (other != null && !(direction == other.direction))
+        {
+            speed = 0;
+            other.setSpeed(0);
+            return true;
+        }
+        return false;
     }
 }

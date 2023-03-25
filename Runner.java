@@ -1,15 +1,19 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-
-public class walker extends Pedestrian
+/**
+ * Write a description of class Runner here.
+ * 
+ * @author Aous Alomari
+ */
+public class Runner extends Pedestrian
 {
-    public walker(int direction)
+
+    public Runner(int direction)
     {
         super(direction);
-        maxSpeed = 1;
+        maxSpeed = Math.random()*3 + 1;
         speed = maxSpeed;
     }
-    
     public void act()
     {
         move(direction, speed);
