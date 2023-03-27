@@ -16,7 +16,6 @@ public class VehicleWorld extends World
 {
     private GreenfootImage background;
 
-    
     // Color Constants
     public static Color GREY_BORDER = new Color (108, 108, 108);
     public static Color GREY_STREET = new Color (88, 88, 88);
@@ -27,7 +26,8 @@ public class VehicleWorld extends World
     private int laneHeight, laneCount, spaceBetweenLanes;
     private int[] lanePositionsY;
     private VehicleSpawner[] laneSpawners;
-
+    private int timer;
+    private int backgroundNumber = 1;
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -37,10 +37,10 @@ public class VehicleWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1, false); 
 
-        setPaintOrder (Bus.class, Car.class, Ambulance.class, bulldozer.class, Pedestrian.class);
+        setPaintOrder (Bus.class, Car.class, Ambulance.class, Bulldozer.class, Pedestrian.class);
 
         // set up background
-        background = new GreenfootImage ("background01.png");
+        background = new GreenfootImage ("background" + backgroundNumber + ".png");
         setBackground (background);
 
         // Set critical variables
@@ -50,17 +50,20 @@ public class VehicleWorld extends World
         splitAtCenter = true;
         twoWayTraffic = true;
 
-        
         // Init lane spawner objects 
         laneSpawners = new VehicleSpawner[laneCount];
 
         // Prepare lanes method - draws the lanes
         lanePositionsY = prepareLanes (this, background, laneSpawners, 222, laneHeight, laneCount, spaceBetweenLanes, twoWayTraffic, splitAtCenter);
 
+        prepare();
+        timer = 0;
     }
 
     public void act () {
         spawn();
+        timer++;
+        prepare();
     }
 
     private void spawn () {
@@ -74,13 +77,13 @@ public class VehicleWorld extends World
                     addObject(new Car(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 1)
                 {
-                    addObject(new Bus(laneSpawners[lane]), 0, 0);
+                    addObject(new Car(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 2)
                 {
-                    addObject(new Ambulance(laneSpawners[lane]), 0, 0);
+                    addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 3)
                 {
-                    addObject(new bulldozer(laneSpawners[lane]), 0, 0);
+                    addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
                 }
             }
         }
@@ -89,13 +92,35 @@ public class VehicleWorld extends World
         if (Greenfoot.getRandomNumber (60) == 0){
             int xSpawnLocation = Greenfoot.getRandomNumber (600) + 100; // random between 99 and 699, so not near edges
             boolean spawnAtTop = Greenfoot.getRandomNumber(2) == 0 ? true : false;
-            
+
             if (spawnAtTop){
                 Pedestrian newHuman = Greenfoot.getRandomNumber(2) == 0 ? new walker(1) : new Runner(1);
                 addObject(newHuman, xSpawnLocation, 50);
             } else {
                 Pedestrian newHuman = Greenfoot.getRandomNumber(2) == 0 ? new walker(-1) : new Runner(-1);
                 addObject(newHuman, xSpawnLocation, 550);
+            }
+        }
+    }
+
+    public void spawn(Vehicle other)
+    {
+        //change lane variable to get to lane number of crashed vehicle
+        int lane = Greenfoot.getRandomNumber(laneCount);
+        if (!laneSpawners[lane].isTouchingVehicle()){
+            int vehicleType = Greenfoot.getRandomNumber(4);
+            if (vehicleType == 0)
+            {
+                addObject(new Car(laneSpawners[lane]), 0, 0);
+            } else if (vehicleType == 1)
+            {
+                addObject(new Car(laneSpawners[lane]), 0, 0);
+            } else if (vehicleType == 2)
+            {
+                addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
+            } else if (vehicleType == 3)
+            {
+                addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
             }
         }
     }
@@ -114,7 +139,7 @@ public class VehicleWorld extends World
         } 
         return -1;
     }
-    
+
     /**
      * Given a y-position, return the lane number (zero-indexed).
      * Note that the y-position must be valid, and you should 
@@ -135,7 +160,7 @@ public class VehicleWorld extends World
         }
         return -1;
     }
-    
+
     public static int[] prepareLanes (World world, GreenfootImage target, VehicleSpawner[] spawners, int startY, int heightPerLane, int lanes, int spacing, boolean twoWay, boolean centreSplit, int centreSpacing)
     {
         // Declare an array to store the y values as I calculate them
@@ -271,4 +296,21 @@ public class VehicleWorld extends World
         return prepareLanes (world, target, spawners, startY, heightPerLane, lanes, spacing, twoWay, centreSplit, spacing);
     }
 
+    /**
+     * Prepare the world for the start of the program.
+     * That is: create the initial objects and add them to the world.
+     */
+    private void prepare()
+    {
+        if (timer > 400)
+        {
+            backgroundNumber %= 4;
+            backgroundNumber++;
+            background = new GreenfootImage ("background" + backgroundNumber + ".png");
+            setBackground (background);
+            prepareLanes (this, background, laneSpawners, 222, laneHeight, laneCount, spaceBetweenLanes, twoWayTraffic, splitAtCenter);
+            timer %= 400;
+        }
+        
+    }
 }

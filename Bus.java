@@ -14,6 +14,7 @@ public class Bus extends Vehicle
         speed = maxSpeed;
         // because the Bus graphic is tall, offset it a up (this may result in some collision check issues)
         yOffset = 15;
+        delayCount = 40;
     }
 
     /**
@@ -22,55 +23,44 @@ public class Bus extends Vehicle
      */
     public void act()
     {
-        if (paused())
-        {
-            delayCount--;
-            return;
-        }else
-        {
-            drive();
-        }
-        
-        
+
+        drive();
         if (checkEdge()){
             getWorld().removeObject(this);
         }
+        
+        //delayCount = (delayCount == 0) ? delayCount:delayCount--;
+        //checks if delaycount is 0 and if it is not, subtract delayCount by 1
     }
 
     public void checkHitPedestrian () {
-        return;
-    }    
-    // methods to add
-    public boolean paused()
-    {
-        return delayCount > 0;
-    }
-
-    public void setDelay(int actCount)
-    {
-        delayCount = actCount;
-    }
-    
-    public void drive()
-    {
-        Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
-        
-        if (ahead == null)
-        {
-            speed = maxSpeed;
-        } else {
-            speed = ahead.getSpeed();
-        }
         Pedestrian intersectingPedestrian = (Pedestrian) this.getOneIntersectingObject(Pedestrian.class);
         if (intersectingPedestrian != null && intersectingPedestrian.isAwake())
         {
-            setDelay(50);
             speed = 0;
-            getWorld().removeObject(intersectingPedestrian);
-            return;
+            intersectingPedestrian.setSpeed(0);
+            delayCount--;
+            if (delayCount == 0)
+            {
+                getWorld().removeObject(intersectingPedestrian);
+                delayCount = 40;
+                speed = maxSpeed;
+            }
+        }
+    }    
+    // methods to add
+    
+    public void drive() 
+    {
+        Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
+        if (ahead == null || ahead.getSpeed() > speed)
+        {
+            speed = maxSpeed;
+        }else {
+            speed = ahead.getSpeed();
         }
         checkHitPedestrian();
         move (speed * direction);
-    } 
-    //bus keeps driving even after a civilian touches it ;-; plz change :_(
+    }
 }
+

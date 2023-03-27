@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * A Pedestrian that tries to walk across the street
  */
-public class Pedestrian extends SuperSmoothMover
+public abstract class Pedestrian extends SuperSmoothMover
 {
     protected double speed;
     protected double maxSpeed;
@@ -32,6 +32,11 @@ public class Pedestrian extends SuperSmoothMover
     
     public boolean isAwake () {
         return awake;
+    }
+    
+    public void setSpeed(double newSpeed)
+    {
+        speed = newSpeed;
     }
     
     public void move(int direction, double speed)

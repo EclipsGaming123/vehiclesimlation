@@ -11,7 +11,7 @@ public class Runner extends Pedestrian
     public Runner(int direction)
     {
         super(direction);
-        maxSpeed = Math.random()*3 + 1;
+        maxSpeed = Math.random()*5 + 1;
         speed = maxSpeed;
     }
     public void act()

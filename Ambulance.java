@@ -34,7 +34,7 @@ public class Ambulance extends Vehicle
     }
 
     public void checkHitPedestrian () {
-        Pedestrian p = (Pedestrian)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
+        Pedestrian p = (Pedestrian)getOneIntersectingObject(Pedestrian.class);
         if (p != null && !p.isAwake())
         {
             p.healMe();
