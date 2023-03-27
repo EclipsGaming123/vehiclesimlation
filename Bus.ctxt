@@ -8,6 +8,4 @@ comment2.target=void\ act()
 comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ Bus\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment3.params=
 comment3.target=void\ checkHitPedestrian()
-comment4.params=
-comment4.target=void\ drive()
-numComments=5
+numComments=4

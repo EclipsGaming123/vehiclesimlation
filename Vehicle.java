@@ -12,8 +12,7 @@ public abstract class Vehicle extends SuperSmoothMover
     protected boolean moving;
     protected int yOffset;
     protected VehicleSpawner origin;
-    protected boolean crashed = false;
-    protected boolean pushed = false;
+    
     protected abstract void checkHitPedestrian ();
 
     public Vehicle (VehicleSpawner origin) {
@@ -22,6 +21,7 @@ public abstract class Vehicle extends SuperSmoothMover
         
         if (origin.facesRightward()){
             direction = 1;
+            
         } else {
             direction = -1;
             getImage().mirrorHorizontally();
@@ -61,18 +61,16 @@ public abstract class Vehicle extends SuperSmoothMover
      */
     public void drive() 
     {
+        // Ahead is a generic vehicle - we don't know what type BUT
+        // since every Vehicle "promises" to have a getSpeed() method,
+        // we can call that on any vehicle to find out it's speed
         Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
-        if (ahead == null || ahead.getSpeed() > speed)
+        if (ahead == null)
         {
             speed = maxSpeed;
-        }else {
+
+        } else {
             speed = ahead.getSpeed();
-        }
-        checkHitPedestrian();
-        Bulldozer bulldozer = (Bulldozer)getOneIntersectingObject(Bulldozer.class);
-        if (bulldozer != null)
-        {
-            bulldozer.push(this);
         }
         move (speed * direction);
     }   
@@ -84,72 +82,4 @@ public abstract class Vehicle extends SuperSmoothMover
     public double getSpeed(){
         return speed;
     }
-    
-    public void setSpeed(double speed)
-    {
-        this.speed = speed;
-    }
-    
-    public int getDirection()
-    {
-        return direction;
-    }
-    
-    public boolean isPushed()
-    {
-        return pushed;
-    }
-    
-    public boolean isCrashed()
-    {
-        return crashed;
-    }
-    
-    public boolean crash(Vehicle other)
-    {
-        //check if the other vehicle exists and is moving in other direction
-        if(other != null)
-        {
-            if (direction != other.direction)
-                //are moving in opposite directions
-                if (other instanceof Bulldozer)
-                {
-                    //bulldozer pushes car moving in opposite direction
-                    other.push(this);
-                }else
-                {
-                    if (other.isPushed())
-                    {
-                        //car that is pushed by bulldozer pushes other cars
-                        maxSpeed = other.maxSpeed;
-                        direction = other.direction;
-                        pushed = true;
-                    }else{
-                        speed = 0;
-                        other.setSpeed(0);
-                        crashed = true;
-                        other.crashed = true;
-                    }
-                }
-            else
-            {
-                //moving in same direction
-                if (other instanceof Bulldozer && speed == 0)
-                {
-                    speed = other.maxSpeed;
-                    direction = other.direction;
-                    pushed = true;
-                }
-            }
-        }
-        return crashed;
-    }
-    
-    public void push(Vehicle vehicle)
-    {
-        return;
-    }
-    /*even though I only call the push when object is intance of bulldozer
-    *greenfoot is weird and requires a push method in the vehicle class
-    */
 }

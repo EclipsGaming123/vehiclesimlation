@@ -5,7 +5,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bus extends Vehicle
 {
-    private int delayCount;
     public Bus(VehicleSpawner origin){
         super (origin); // call the superclass' constructor first
         
@@ -14,7 +13,6 @@ public class Bus extends Vehicle
         speed = maxSpeed;
         // because the Bus graphic is tall, offset it a up (this may result in some collision check issues)
         yOffset = 15;
-        delayCount = 40;
     }
 
     /**
@@ -23,44 +21,20 @@ public class Bus extends Vehicle
      */
     public void act()
     {
-
         drive();
+        checkHitPedestrian();
         if (checkEdge()){
             getWorld().removeObject(this);
         }
         
-        //delayCount = (delayCount == 0) ? delayCount:delayCount--;
-        //checks if delaycount is 0 and if it is not, subtract delayCount by 1
     }
 
     public void checkHitPedestrian () {
-        Pedestrian intersectingPedestrian = (Pedestrian) this.getOneIntersectingObject(Pedestrian.class);
-        if (intersectingPedestrian != null && intersectingPedestrian.isAwake())
+        Pedestrian p = (walker)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
+        if (p != null && !p.isAwake())
         {
-            speed = 0;
-            intersectingPedestrian.setSpeed(0);
-            delayCount--;
-            if (delayCount == 0)
-            {
-                getWorld().removeObject(intersectingPedestrian);
-                delayCount = 40;
-                speed = maxSpeed;
-            }
+            getWorld().removeObject(p);
+            
         }
-    }    
-    // methods to add
-    
-    public void drive() 
-    {
-        Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
-        if (ahead == null || ahead.getSpeed() > speed)
-        {
-            speed = maxSpeed;
-        }else {
-            speed = ahead.getSpeed();
-        }
-        checkHitPedestrian();
-        move (speed * direction);
     }
 }
-

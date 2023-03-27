@@ -5,6 +5,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Ambulance extends Vehicle
 {
+    protected double speed;
+    protected double maxSpeed;
+    protected int direction; // direction is always -1 or 1, for moving down or up, respectively
+    protected boolean awake;
     public Ambulance(VehicleSpawner origin){
         super (origin); // call the superclass' constructor first
         
@@ -19,22 +23,15 @@ public class Ambulance extends Vehicle
     public void act()
     {
         drive();
-        Vehicle ahead = (Vehicle) getOneObjectAtOffset (direction * (int)(speed + getImage().getWidth()/2 + 4), 0, Vehicle.class);
-        if (ahead == null)
-        {
-            speed = maxSpeed;
-
-        } else {
-            speed = ahead.getSpeed();
-        }
         checkHitPedestrian();
+        //Pedestrian p = (Pedestrian)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
         if (checkEdge()){
             getWorld().removeObject(this);
         }
     }
 
     public void checkHitPedestrian () {
-        Pedestrian p = (Pedestrian)getOneIntersectingObject(Pedestrian.class);
+        Pedestrian p = (Pedestrian)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
         if (p != null && !p.isAwake())
         {
             p.healMe();
