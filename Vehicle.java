@@ -93,6 +93,10 @@ public abstract class Vehicle extends SuperSmoothMover
         return;
     }
     
+    public void speedUp()
+    {
+        maxSpeed *= 6;
+    }
     
     /*even though I only call the push when object is intance of bulldozer
     *a push method is needed in the vehicle class

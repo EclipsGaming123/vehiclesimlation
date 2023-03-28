@@ -13,7 +13,6 @@ public class Bulldozer extends Vehicle
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
 
-    //bulldozer constructor
     public Bulldozer(VehicleSpawner origin)
     {
         super(origin);
@@ -23,31 +22,26 @@ public class Bulldozer extends Vehicle
     
     public void act()
     {
-        //drives forward
         drive();
-        //checks hit pedestrian
         checkHitPedestrian();
         if (checkEdge()){
             getWorld().removeObject(this);
         }
     }
     
-    //removes touching pedestrian
     public void checkHitPedestrian()
     {
-        Pedestrian p = (Pedestrian)getOneIntersectingObject(Pedestrian.class);
+        Pedestrian p = (Pedestrian)getOneObjectAtOffset((int)speed + getImage().getWidth()/2, 0, Pedestrian.class);
         if (p != null && !p.isAwake())
         {
-            //if touching pedestrian, remove pedestrian
             getWorld().removeObject(p);
         }
     }
     
-    //pushes vehicle
-    public void push(Vehicle vehicle)
+    public void push(Vehicle other)
     {
-        vehicle.maxSpeed = speed;
-        vehicle.direction = direction;
-        vehicle.pushed = true;
+        other.maxSpeed = maxSpeed;
+        other.direction = direction;
+        other.pushed = true;
     }
 }

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Boom
+comment0.text=\r\n\ The\ boom\ effect\ when\ a\ vehicle\ collides\ with\ another\ for\ too\ long\ and\ causes\ an\ explosion\r\n\ class\ credit\:\ Affan\ Bin\ Hasnat\r\n
+comment1.params=
+comment1.target=Boom()
+comment2.params=radius
+comment2.target=void\ blastRadius(int)
+comment3.params=
+comment3.target=void\ act()
+numComments=4

@@ -19,10 +19,6 @@ public class Car extends Vehicle
         yOffset = 0;
         
         //initializes images
-        for (int i = 1; i <= 6; i++)
-        {
-            explosionAnimation[i-1] = new GreenfootImage("images/explosion" + i + ".png");
-        }
     }
 
     public void act()
@@ -31,7 +27,6 @@ public class Car extends Vehicle
         drive();
         if (checkEdge() || exploded){
             bulldozerSound.stop();
-            getWorld().removeObject(this);
         }
     }
     
@@ -177,38 +172,14 @@ public class Car extends Vehicle
     public void explode()
     {
         //gets vehicles and pedestrians in the blast radius
-        List<Vehicle> explodedVehicles = getObjectsInRange(400,Vehicle.class);
-        List<Pedestrian> pedestrianCasualties = getObjectsInRange(400,Pedestrian.class);
-        //object does not move while explosion going on
-        speed = 0;
+        
         if (!toExplosion)
         {
             //only runs once during
-            Greenfoot.playSound("sounds/explosion.mp3");
+            getWorld().addObject(new Boom(), getX(), getY());
         }
+        
         toExplosion = true;
-        if (currentImage == 6)
-        {
-            for (Vehicle vehicle:explodedVehicles)
-            {
-                getWorld().removeObject(vehicle);
-            }
-            for (Pedestrian pedestrian:pedestrianCasualties)
-            {
-                pedestrian.knockDown();
-            }
-            exploded = true;
-        }else
-        {
-            //makes the frames per second slower so it looks more like an explosion
-            //act method runs 5 times before image changes
-            if (actsPerImage % 5 == 0)
-            {
-                setImage(explosionAnimation[currentImage]);
-                currentImage++;
-            }
-            actsPerImage++;
-        }
         
     }
 }

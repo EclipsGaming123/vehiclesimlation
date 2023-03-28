@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=Effect
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Effect\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n\ \r\n\ credit\:\ Affan\ Bin\ Hasnat\r\n
+comment1.params=imageName\ imageNumber
+comment1.target=Effect(java.lang.String,\ int)
+numComments=2

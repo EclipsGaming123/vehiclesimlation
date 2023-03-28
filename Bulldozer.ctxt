@@ -8,6 +8,6 @@ comment2.params=
 comment2.target=void\ act()
 comment3.params=
 comment3.target=void\ checkHitPedestrian()
-comment4.params=vehicle
+comment4.params=other
 comment4.target=void\ push(Vehicle)
 numComments=5

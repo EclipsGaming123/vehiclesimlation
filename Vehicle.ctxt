@@ -18,4 +18,6 @@ comment6.target=double\ getSpeed()
 comment6.text=\r\n\ Accessor\ methods\r\n
 comment7.params=vehicle
 comment7.target=void\ push(Vehicle)
-numComments=8
+comment8.params=
+comment8.target=void\ speedUp()
+numComments=9
