@@ -1,16 +1,50 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
- * <h1>The new and vastly improved 2022 Vehicle Simulation Assignment.</h1>
- * <p> This is the first redo of the 8 year old project. Lanes are now drawn dynamically, allowing for
- *     much greater customization. Pedestrians can now move in two directions. The graphics are better
- *     and the interactions smoother.</p>
- * <p> The Pedestrians are not as dumb as before (they don't want straight into Vehicles) and the Vehicles
- *     do a somewhat better job detecting Pedestrians.</p>
+ * Citations: 
+ * car horn: https://www.zapsplat.com/music/car-horn-beep-short/
+ * site: https://www.zapsplat.com
  * 
- * Version Notes - Feb 2023
- * --> Includes grid <--> lane conversion method
- * --> Now starts with 1-way, 5 lane setup (easier)
+ * ambulance sound: https://www.youtube.com/watch?v=PtWx9_RGH6I
+ * site: https://www.youtube.com
+ * author: UNLIMITED SOUNDS
+ * 
+ * nighttime ambience sound: https://www.youtube.com/watch?v=Z89gpveGiUM
+ * site: https://www.youtube.com
+ * author: MIXTAPE
+ * 
+ * explosion sound: https://www.youtube.com/watch?v=MdO3_r6juRU
+ * site: https://www.youtube.com
+ * author: Diman4ik
+ * 
+ * bulldozer sound: https://www.youtube.com/watch?v=UI4AVTW8moQ
+ * site: https://www.youtube.com
+ * author: SyentifikFilms
+ * 
+ * pedestrian hit: https://www.youtube.com/watch?v=hcS-DAvsgyk
+ * site: https://www.youtube.com
+ * author: Ted That's me
+ * 
+ * 
+ * Description/features:
+ * 
+ * Cars have the ability to knock down pedestrians
+ * 
+ * Ambulances have the ability to bring Pedestrians back from the dead
+ * Buses have the ability to pick pedestrians up
+ * 
+ * Cars have the ability to change lanes if the lane beside it is clear
+ * If a car is at the center, it has a 15% chance of crossing to the other side of the road every act method
+ * 
+ * Cars explode with vehicles going the opposite direction(except bulldozers) 
+ * Bulldozers have the ability to push cars going the opposite way
+ * pedestrians within the blast radius get knocked down when the car explodes
+ * 
+ * Known Bugs: 
+ * 
+ * bulldozers cannot sweep the lane, they only push cars that move in the opposite direction
+ * cars keep moving forward after exploding if they crash into an ambulance
  */
 public class VehicleWorld extends World
 {
@@ -28,6 +62,7 @@ public class VehicleWorld extends World
     private VehicleSpawner[] laneSpawners;
     private int timer;
     private int backgroundNumber = 1;
+    GreenfootSound nightSound = new GreenfootSound("sounds/night ambience.mp3");
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -61,6 +96,7 @@ public class VehicleWorld extends World
     }
 
     public void act () {
+        //spawns vehicle, and changes  time of day
         spawn();
         timer++;
         prepare();
@@ -68,7 +104,7 @@ public class VehicleWorld extends World
 
     private void spawn () {
         // Chance to spawn a vehicle
-        if (Greenfoot.getRandomNumber (10) == 0){
+        if (Greenfoot.getRandomNumber (60) == 0){
             int lane = Greenfoot.getRandomNumber(laneCount);
             if (!laneSpawners[lane].isTouchingVehicle()){
                 int vehicleType = Greenfoot.getRandomNumber(4);
@@ -77,10 +113,10 @@ public class VehicleWorld extends World
                     addObject(new Car(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 1)
                 {
-                    addObject(new Car(laneSpawners[lane]), 0, 0);
+                    addObject(new Bus(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 2)
                 {
-                    addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
+                    addObject(new Ambulance(laneSpawners[lane]), 0, 0);
                 } else if (vehicleType == 3)
                 {
                     addObject(new Bulldozer(laneSpawners[lane]), 0, 0);
@@ -302,15 +338,32 @@ public class VehicleWorld extends World
      */
     private void prepare()
     {
+        //changes time of day when timer hits 400
         if (timer > 400)
         {
             backgroundNumber %= 4;
             backgroundNumber++;
+            //plays night ambience noise when it is nightime
+            if (backgroundNumber == 4)
+            {
+                nightSound.playLoop();
+            }else
+            {
+                //stops playing noise when daytime comes
+                nightSound.stop();
+            }
             background = new GreenfootImage ("background" + backgroundNumber + ".png");
             setBackground (background);
+            //prepares the lanes
             prepareLanes (this, background, laneSpawners, 222, laneHeight, laneCount, spaceBetweenLanes, twoWayTraffic, splitAtCenter);
             timer %= 400;
         }
         
+    
+    }
+    
+    //pauses night ambience sound after world is paused
+    public void stopped() {
+        nightSound.pause();
     }
 }

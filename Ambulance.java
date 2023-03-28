@@ -5,6 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Ambulance extends Vehicle
 {
+    GreenfootSound ambulanceSound = new GreenfootSound("sounds/ambulance.mp3");
     public Ambulance(VehicleSpawner origin){
         super (origin); // call the superclass' constructor first
         
@@ -23,21 +24,23 @@ public class Ambulance extends Vehicle
         if (ahead == null)
         {
             speed = maxSpeed;
-
         } else {
             speed = ahead.getSpeed();
         }
         checkHitPedestrian();
         if (checkEdge()){
+            ambulanceSound.stop();
             getWorld().removeObject(this);
         }
     }
 
+    //heals pedestrians from the dead
     public void checkHitPedestrian () {
         Pedestrian p = (Pedestrian)getOneIntersectingObject(Pedestrian.class);
         if (p != null && !p.isAwake())
         {
             p.healMe();
+            ambulanceSound.play();
         }
     }
     

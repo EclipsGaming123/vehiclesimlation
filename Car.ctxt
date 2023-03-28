@@ -12,4 +12,6 @@ comment4.target=void\ changeLanes(Vehicle)
 comment5.params=
 comment5.target=void\ checkHitPedestrian()
 comment5.text=\r\n\ When\ a\ Car\ hit's\ a\ Pedestrian,\ it\ should\ knock\ it\ over\r\n
-numComments=6
+comment6.params=
+comment6.target=void\ explode()
+numComments=7

@@ -1,9 +1,11 @@
 #BlueJ class context
 comment0.target=VehicleWorld
-comment0.text=\r\n\ <h1>The\ new\ and\ vastly\ improved\ 2022\ Vehicle\ Simulation\ Assignment.</h1>\r\n\ <p>\ This\ is\ the\ first\ redo\ of\ the\ 8\ year\ old\ project.\ Lanes\ are\ now\ drawn\ dynamically,\ allowing\ for\r\n\ \ \ \ \ much\ greater\ customization.\ Pedestrians\ can\ now\ move\ in\ two\ directions.\ The\ graphics\ are\ better\r\n\ \ \ \ \ and\ the\ interactions\ smoother.</p>\r\n\ <p>\ The\ Pedestrians\ are\ not\ as\ dumb\ as\ before\ (they\ don't\ want\ straight\ into\ Vehicles)\ and\ the\ Vehicles\r\n\ \ \ \ \ do\ a\ somewhat\ better\ job\ detecting\ Pedestrians.</p>\r\n\ \r\n\ Version\ Notes\ -\ Feb\ 2023\r\n\ -->\ Includes\ grid\ <-->\ lane\ conversion\ method\r\n\ -->\ Now\ starts\ with\ 1-way,\ 5\ lane\ setup\ (easier)\r\n
+comment0.text=\r\n\ Citations\:\ \r\n\ car\ horn\:\ https\://www.zapsplat.com/music/car-horn-beep-short/\r\n\ site\:\ https\://www.zapsplat.com\r\n\ \r\n\ ambulance\ sound\:\ https\://www.youtube.com/watch?v\=PtWx9_RGH6I\r\n\ site\:\ https\://www.youtube.com\r\n\ author\:\ UNLIMITED\ SOUNDS\r\n\ \r\n\ nighttime\ ambience\ sound\:\ https\://www.youtube.com/watch?v\=Z89gpveGiUM\r\n\ site\:\ https\://www.youtube.com\r\n\ author\:\ MIXTAPE\r\n\ \r\n\ explosion\ sound\:\ https\://www.youtube.com/watch?v\=MdO3_r6juRU\r\n\ site\:\ https\://www.youtube.com\r\n\ author\:\ Diman4ik\r\n\ \r\n\ bulldozer\ sound\:\ https\://www.youtube.com/watch?v\=UI4AVTW8moQ\r\n\ site\:\ https\://www.youtube.com\r\n\ author\:\ SyentifikFilms\r\n\ \r\n\ pedestrian\ hit\:\ https\://www.youtube.com/watch?v\=hcS-DAvsgyk\r\n\ site\:\ https\://www.youtube.com\r\n\ author\:\ Ted\ That's\ me\r\n\ \r\n\ \r\n\ Description/features\:\r\n\ \r\n\ Cars\ have\ the\ ability\ to\ knock\ down\ pedestrians\r\n\ \r\n\ Ambulances\ have\ the\ ability\ to\ bring\ Pedestrians\ back\ from\ the\ dead\r\n\ Buses\ have\ the\ ability\ to\ pick\ pedestrians\ up\r\n\ \r\n\ Cars\ have\ the\ ability\ to\ change\ lanes\ if\ the\ lane\ beside\ it\ is\ clear\r\n\ If\ a\ car\ is\ at\ the\ center,\ it\ has\ a\ 15%\ chance\ of\ crossing\ to\ the\ other\ side\ of\ the\ road\ every\ act\ method\r\n\ \r\n\ Cars\ explode\ with\ vehicles\ going\ the\ opposite\ direction(except\ bulldozers)\ \r\n\ Bulldozers\ have\ the\ ability\ to\ push\ cars\ going\ the\ opposite\ way\r\n\ pedestrians\ within\ the\ blast\ radius\ get\ knocked\ down\ when\ the\ car\ explodes\r\n\ \r\n\ Known\ Bugs\:\ \r\n\ \r\n\ bulldozers\ cannot\ sweep\ the\ lane,\ they\ only\ push\ cars\ that\ move\ in\ the\ opposite\ direction\r\n\ cars\ keep\ moving\ forward\ after\ exploding\ if\ they\ crash\ into\ an\ ambulance\r\n
 comment1.params=
 comment1.target=VehicleWorld()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ MyWorld.\r\n\ \r\n
+comment10.params=
+comment10.target=void\ stopped()
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
@@ -24,4 +26,4 @@ comment8.text=\r\n\ <p>The\ prepareLanes\ method\ is\ a\ static\ (standalone)\ m
 comment9.params=
 comment9.target=void\ prepare()
 comment9.text=\r\n\ Prepare\ the\ world\ for\ the\ start\ of\ the\ program.\r\n\ That\ is\:\ create\ the\ initial\ objects\ and\ add\ them\ to\ the\ world.\r\n
-numComments=10
+numComments=11
